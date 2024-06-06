@@ -42,9 +42,9 @@ export const editPost = async (req, res) => {
 
 export const deletePost = async (req, res) => {
     const postId = req.params.postId
-    const {userId}=req.body
+    const { userId } = req.body
     try {
-        await Post.findOneAndDelete({_id: postId,userId: userId});
+        await Post.findOneAndDelete({ _id: postId, userId: userId });
     } catch {
         return res.status(500).json("Internal server error")
     }
@@ -69,7 +69,7 @@ export const getPosts = async (req, res) => {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-export const  loggedUserPosts = async (req, res) => {
+export const loggedUserPosts = async (req, res) => {
     const loggedUserId = req.params.userId;
     try {
         const posts = await Post.find({ userId: loggedUserId });
@@ -92,8 +92,8 @@ export const likePost = async (req, res) => {
             await Post.findByIdAndUpdate(postId, { $pull: { likes: userId } }, { new: true });
             return res.status(200).json({ liked: false, message: "like removed" });
         } else {
-            if(post.dislikes.includes(userId)) {
-                post.dislikes=post.dislikes.filter(id=>id!==userId)
+            if (post.dislikes.includes(userId)) {
+                await Post.findByIdAndUpdate(postId, { $pull: { dislikes: userId } }, { new: true });
             }
             post.likes.push(userId);
             await post.save();
@@ -108,37 +108,43 @@ export const likePost = async (req, res) => {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
-export const dislikePost = async(req, res) => {
+export const dislikePost = async (req, res) => {
     const { userId, postId } = req.body;
     try {
         const post = await Post.findById(postId);
-        if (post.dislikes.includes(userId)) {
-            await Post.findByIdAndUpdate(postId, { $pull: { dislikes: userId } }, { new: true });
-            return res.status(200).json({ disliked: false, message: "disliked removed" });
-        } else {
-            if(post.likes.includes(userId)) {
-                post.likes=post.likes.filter(id=>id!==userId)
-            }
-            post.dislikes.push(userId);
-            post.save();
-            return res.status(200).json({ disliked: true, message: "disliked added" });
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
         }
 
-    } catch {
-        return res.status(404).json({ message: "Internal server Error" })
+        if (post.dislikes.includes(userId)) {
+            await Post.findByIdAndUpdate(postId, { $pull: { dislikes: userId } }, { new: true });
+            return res.status(200).json({ disliked: false, message: "Dislike removed" });
+        } else {
+            if (post.likes.includes(userId)) {
+                await Post.findByIdAndUpdate(postId, { $pull: { likes: userId } }, { new: true });
+            }
+            post.dislikes.push(userId);
+            await post.save();
+            return res.status(200).json({ disliked: true, message: "Dislike added" });
+        }
+
+    } catch (error) {
+        console.error("Error disliking post:", error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 
 
-export const getSinglePost=async(req,res)=>{
-    const postId=req.params.postId
-    try{
-        const post=await Post.findById(postId)
-        if(!post){
-            return res.status(404).json({message:"Post not found"})
+
+export const getSinglePost = async (req, res) => {
+    const postId = req.params.postId
+    try {
+        const post = await Post.findById(postId)
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" })
         }
-        return res.status(200).json({post})
-    }catch{
-        return res.status(404).json({message:"Internal server error"})
+        return res.status(200).json({ post })
+    } catch {
+        return res.status(404).json({ message: "Internal server error" })
     }
 }
