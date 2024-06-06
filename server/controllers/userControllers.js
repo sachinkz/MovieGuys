@@ -92,6 +92,9 @@ export const likePost = async (req, res) => {
             await Post.findByIdAndUpdate(postId, { $pull: { likes: userId } }, { new: true });
             return res.status(200).json({ liked: false, message: "like removed" });
         } else {
+            if(post.dislikes.includes(userId)) {
+                post.dislikes.filter(id=>id!==userId)
+            }
             post.likes.push(userId);
             await post.save();
             return res.status(200).json({ liked: true, message: "like added" });
@@ -113,6 +116,9 @@ export const dislikePost = async(req, res) => {
             await Post.findByIdAndUpdate(postId, { $pull: { dislikes: userId } }, { new: true });
             return res.status(200).json({ disliked: false, message: "disliked removed" });
         } else {
+            if(post.likes.includes(userId)) {
+                post.likes.filter(id=>id!==userId)
+            }
             post.dislikes.push(userId);
             post.save();
             return res.status(200).json({ disliked: true, message: "disliked added" });
