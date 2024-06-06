@@ -21,8 +21,8 @@ function App() {
   if (!user) {
     routes = <>
       <Routes>
+        <Route path="/" element={<LogIn />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<LogIn />} />
         <Route path="*" element={<Navigate to={"/login"} />} />
       </Routes>
     </>

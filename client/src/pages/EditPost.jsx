@@ -12,7 +12,7 @@ const EditPost = () => {
     const [image, setImage] = useState(null);
 
     const navigate = useNavigate();
-    const {user}=useAuth()
+    const { user } = useAuth()
     const params = useParams()
 
     useEffect(() => {
@@ -21,17 +21,19 @@ const EditPost = () => {
                 navigate("/")
             }
             try {
-                const res = await axios.get(`http://localhost:5000/user/get-post/${params.postId}`, {
+                const res = await axios.get(`https://movieguys.onrender.com/user/get-post/${params.postId}`, {
                     headers: {
                         Authorization: `Bearer ${user.token}`
                     }
                 });
-                const post = res.data.post;
-                setValue("movie", post.movie);
-                setValue("desc", post.desc);
-                setValue("title", post.title);
-                setValue("content", post.content);
-                setImage(post.image);
+                if (res.data) {
+                    const post = res.data.post;
+                    setValue("movie", post.movie);
+                    setValue("desc", post.desc);
+                    setValue("title", post.title);
+                    setValue("content", post.content);
+                    setImage(post.image);
+                }
             } catch (err) {
                 console.log(err)
             }
@@ -63,13 +65,14 @@ const EditPost = () => {
 
         try {
             const response = await axios.put(
-                "http://localhost:5000/user/edit-post", data, {
+                "https://movieguys.onrender.com/user/edit-post", data, {
                 headers: {
                     Authorization: `Bearer ${user.token} `
                 }
             })
-            console.log(response.data);
-            navigate("/");
+            if (response.data) {
+                navigate("/");
+            }
         } catch (err) {
             console.log(err);
         }

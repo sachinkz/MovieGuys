@@ -13,10 +13,10 @@ const CreatePost = () => {
     const [errMsg, setErrMsg] = useState("");
 
     const navigate = useNavigate();
-    const {user}=useAuth()
+    const { user } = useAuth()
 
     const onSubmit = async (data) => {
-        if(!image){
+        if (!image) {
             setErrMsg("Please add an image")
             return;
         }
@@ -29,8 +29,6 @@ const CreatePost = () => {
                 "https://api.cloudinary.com/v1_1/djyqjmd1o/image/upload/",
                 formData
             );
-            console.log(res.data);
-
         } catch (err) {
             console.log(err);
         }
@@ -40,13 +38,14 @@ const CreatePost = () => {
             data.image = res.data.secure_url
             try {
                 const response = await axios.post(
-                    "http://localhost:5000/user/create-post", data, {
+                    "https://movieguys.onrender.com/user/create-post", data, {
                     headers: {
                         Authorization: `Bearer ${user.token} `
                     }
                 })
-                console.log(response.data);
-                navigate("/");
+                if (response.data) {
+                    navigate("/");
+                }
             } catch (err) {
                 console.log(err);
             }
@@ -147,7 +146,7 @@ const CreatePost = () => {
                         className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required=""
                     />
-                    {!image && errMsg &&<p className="text-red-500 text-sm mt-2">{errMsg}</p>}
+                    {!image && errMsg && <p className="text-red-500 text-sm mt-2">{errMsg}</p>}
                 </div>
                 <div>
                     <label

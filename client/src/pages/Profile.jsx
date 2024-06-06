@@ -9,17 +9,19 @@ const Profile = () => {
     const [collapsedPost, setCollapsedPost] = useState(null);
     const [blogs, setBlogs] = useState([]);
 
-    
+
 
     const { logout, user } = useAuth()
     const fetchBlogs = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/user/get-posts/${user?.user._id}`, {
+            const res = await axios.get(`https://movieguys.onrender.com/user/get-posts/${user?.user._id}`, {
                 headers: {
                     Authorization: `Bearer ${user?.token}`
                 }
             })
-            setBlogs(res.data.posts.reverse())
+            if (res.data) {
+                setBlogs(res.data.posts.reverse())
+            }
         } catch (err) {
             console.log(err?.response?.data)
             if (err.response?.data?.redirect) {

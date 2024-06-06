@@ -1,51 +1,57 @@
 import React, { useState } from 'react'
 import { ThumbsDown, ThumbsUp } from 'lucide-react';
-import {useAuth} from "../context/AuthContext"
+import { useAuth } from "../context/AuthContext"
 import axios from 'axios'
 
-const Post = ({blog,i}) => {
-    
-    const [likes,setLikes]=useState(blog.likes);
-    const [disLikes,setDisLikes]=useState(blog.dislikes);
-    const {user}=useAuth()
+const Post = ({ blog, i }) => {
 
-    const handleLikePost=async()=>{
-        const body={
-            postId:blog._id,
+    const [likes, setLikes] = useState(blog.likes);
+    const [disLikes, setDisLikes] = useState(blog.dislikes);
+    const { user } = useAuth()
+
+    const handleLikePost = async () => {
+        const body = {
+            postId: blog._id,
         }
-        try{
-            const res=await axios.post('http://localhost:5000/user/like-post',body,{
+        try {
+            const res = await axios.post('https://movieguys.onrender.com/user/like-post', body, {
                 headers: {
                     Authorization: `Bearer ${user?.token} `
                 }
             })
-            if(res.data.liked){
-                setLikes([...likes,user.user._id]);
-            }else{
-                setLikes(likes.filter(like=>like!==user.user._id));
+            if (res.data.liked) {
+                setLikes([...likes, user.user._id]);
+                if (disLikes.includes(user.user._id)) {
+                    setDisLikes(disLikes.filter(id => id !== user.user._id));
+                }
+            } else {
+                setLikes(likes.filter(like => like !== user.user._id));
             }
-        }catch (err){
+        } catch (err) {
             console.log(err)
         }
     }
-    const handleDislikePost=async()=>{
-        const body={
-            postId:blog._id,
+    const handleDislikePost = async () => {
+        const body = {
+            postId: blog._id,
         }
-        try{
-            const res=await axios.post('http://localhost:5000/user/dislike-post',body,{
+        try {
+            const res = await axios.post('https://movieguys.onrender.com/user/dislike-post', body, {
                 headers: {
                     Authorization: `Bearer ${user?.token} `
                 }
             })
             console.log(res.data)
 
-            if(res.data.disliked){
-                setDisLikes([...disLikes,user.user._id]);
-            }else{
-                setDisLikes(disLikes.filter(dislike=>dislike!==user.user._id));
+            if (res.data.disliked) {
+                setDisLikes([...disLikes, user.user._id]);
+                if (likes.includes(user.user._id)) {
+                    setLikes(likes.filter(id => id !== user.user._id));
+                }
+            } else {
+                setDisLikes(disLikes.filter(dislike => dislike !== user.user._id));
             }
-        }catch (err){
+        } catch (err) {
             console.log(err)
         }
     }

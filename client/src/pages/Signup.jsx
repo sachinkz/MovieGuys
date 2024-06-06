@@ -15,7 +15,7 @@ const SignUp = () => {
 
     const onSubmit = async (data) => {
         try {
-            const res = await axios.post("http://localhost:5000/auth/register", data)
+            const res = await axios.post("https://movieguys.onrender.com/auth/register", data)
             if (res.data) {
                 navigate('/')
             }

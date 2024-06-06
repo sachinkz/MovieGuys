@@ -5,7 +5,6 @@ import {useAuth} from '../context/AuthContext'
 const Navbar = () => {
   const isLoggedIn = true
 
-  const [toggleBtn, setToggleBtn] = useState(true)
   const {logout} =useAuth()
 
   return (
