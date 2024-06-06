@@ -93,7 +93,7 @@ export const likePost = async (req, res) => {
             return res.status(200).json({ liked: false, message: "like removed" });
         } else {
             if(post.dislikes.includes(userId)) {
-                post.dislikes.filter(id=>id!==userId)
+                post.dislikes=post.dislikes.filter(id=>id!==userId)
             }
             post.likes.push(userId);
             await post.save();
@@ -117,7 +117,7 @@ export const dislikePost = async(req, res) => {
             return res.status(200).json({ disliked: false, message: "disliked removed" });
         } else {
             if(post.likes.includes(userId)) {
-                post.likes.filter(id=>id!==userId)
+                post.likes=post.likes.filter(id=>id!==userId)
             }
             post.dislikes.push(userId);
             post.save();
