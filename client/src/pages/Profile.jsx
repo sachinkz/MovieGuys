@@ -1,39 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import { ChevronDown, Edit, Trash } from 'lucide-react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import React, { useEffect, useState, startTransition } from 'react';
+import { ChevronDown, Edit, Trash } from 'lucide-react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Profile = () => {
-
     const [collapsedPost, setCollapsedPost] = useState(null);
     const [blogs, setBlogs] = useState([]);
+    const { logout, user } = useAuth();
 
-
-
-    const { logout, user } = useAuth()
     const fetchBlogs = async () => {
         try {
             const res = await axios.get(`https://movieguys.onrender.com/user/get-posts/${user?.user._id}`, {
                 headers: {
                     Authorization: `Bearer ${user?.token}`
                 }
-            })
+            });
             if (res.data) {
-                setBlogs(res.data.posts.reverse())
+                startTransition(() => {
+                    setBlogs(res.data.posts.reverse());
+                });
             }
         } catch (err) {
-            console.log(err?.response?.data)
+            console.log(err?.response?.data);
             if (err.response?.data?.redirect) {
-                logout()
+                logout();
             }
         }
-    }
+    };
 
     useEffect(() => {
-        fetchBlogs()
-    }, [])
-
+        fetchBlogs();
+    }, []);
 
     const deletePost = async (id) => {
         try {
@@ -41,16 +39,12 @@ const Profile = () => {
                 headers: {
                     Authorization: `Bearer ${user?.token}`
                 }
-            })
+            });
             fetchBlogs();
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
-    }
-
-
-
-
+    };
 
     return (
         <div className='w-full min-h-screen dark:bg-gray-900 px-12 pt-20 text-white'>
@@ -78,9 +72,8 @@ const Profile = () => {
                     </div>
                 ))}
             </div>
-
         </div>
-    )
-}
+    );
+};
 
-export default Profile
+export default Profile;

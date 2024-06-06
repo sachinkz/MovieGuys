@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import { CameraOffIcon, LoaderIcon } from "lucide-react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -71,7 +71,9 @@ const EditPost = () => {
                 }
             })
             if (response.data) {
-                navigate("/");
+                startTransition(() => {
+                    navigate("/");
+                });
             }
         } catch (err) {
             console.log(err);
