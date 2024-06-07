@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import React, { createContext, startTransition, useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
@@ -18,14 +18,18 @@ export const AuthProvider = ({ children }) => {
 
   const login = useCallback((userData) => {
     localStorage.setItem('userData', JSON.stringify(userData));
-    setUser(userData);
-    navigate("/");
+    startTransition(() => {
+      setUser(userData);
+      navigate("/");
+    });
   }, [navigate]);
 
   const logout = useCallback(() => {
     localStorage.removeItem('userData');
-    setUser(null);
-    navigate("/");
+    startTransition(() => {
+      setUser(null);
+      navigate("/");
+    });
   }, [navigate]);
 
   return (
