@@ -58,13 +58,13 @@ const CreatePost = () => {
     };
 
     return (
-        <div className="w-full min-h-screen px-10 flex bg-gray-800 pt-24 text-white">
+        <div className="w-full min-h-screen px-10 max-md:px-5 pb-10 flex max-md:flex-col max-md:gap-10 bg-gray-800 pt-24 text-white">
             {formState.isSubmitting && (
                 <div className="absolute w-full h-screen flex justify-center items-center top-0 left-0 bg-[#00000050]">
                     <LoaderIcon className="h-28 w-28 animate-spin" />
                 </div>
             )}
-            <div className="w-1/2 flex justify-center items-center pr-10">
+            <div className="w-1/2 max-md:w-full flex justify-center items-center max-md:pr-0 pr-10">
                 {!image ? (
                     <CameraOffIcon className="h-36 w-36 opacity-25" />
                 ) : (
@@ -78,7 +78,7 @@ const CreatePost = () => {
                 )}
             </div>
             <form
-                className="md:space-y-6 w-1/2"
+                className="md:space-y-6 w-1/2 max-md:w-full"
                 action="#"
                 onSubmit={handleSubmit(onSubmit)}
             >
