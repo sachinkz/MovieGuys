@@ -48,8 +48,8 @@ const SignUp = () => {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Create and account
                         </h1>
-                        <form className="space-y-4 md:space-y-6" action="#" onSubmit={handleSubmit(onSubmit)}>
-                            <div>
+                        <form className="gap-3 flex flex-col items-center" action="#" onSubmit={handleSubmit(onSubmit)}>
+                            <div className='w-full'>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
                                 <input {...register("username", {
                                     required: "username is required",
@@ -65,7 +65,7 @@ const SignUp = () => {
                                 <p className="text-red-500 text-sm mt-2"> {formState.errors.username?.message}</p>
 
                             </div>
-                            <div>
+                            <div className='w-full'>
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                                 <input {...register("email", {
                                     required: "Email is required",
@@ -81,7 +81,7 @@ const SignUp = () => {
                                 <p className="text-red-500 text-sm mt-2"> {formState.errors.email?.message}</p>
 
                             </div>
-                            <div>
+                            <div className='w-full'>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
                                 <input {...register("password", {
                                     required: "Password is required",
@@ -99,7 +99,7 @@ const SignUp = () => {
                                 <p className="text-red-500 text-sm mt-2"> {formState.errors.password?.message}</p>
 
                             </div>
-                            <div>
+                            <div className='w-full'>
                                 <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
                                 <input {...register("cPassword", {
                                     validate: value => value === getValues("password") || "Passwords do not match",
