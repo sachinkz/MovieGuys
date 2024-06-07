@@ -42,7 +42,7 @@ function App() {
   return (
     <Suspense fallback={
       <div className='w-full h-screen flex justify-center items-center'>
-         <LoaderIcon className="h-14 w-14 animate-spin" />
+         <LoaderIcon className="h-14 w-14 animate-spin text-white" />
       </div>
     }>
       {routes}
