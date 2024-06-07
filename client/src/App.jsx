@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
+import { LoaderIcon } from 'lucide-react';
 
 const Home = lazy(() => import('./pages/Home'));
 const LogIn = lazy(() => import('./pages/Login'));
@@ -39,7 +40,11 @@ function App() {
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={
+      <div className='w-full h-screen flex justify-center items-center'>
+         <LoaderIcon className="h-14 w-14 animate-spin" />
+      </div>
+    }>
       {routes}
     </Suspense>
   );
