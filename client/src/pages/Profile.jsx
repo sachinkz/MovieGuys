@@ -16,11 +16,9 @@ const Profile = () => {
                     Authorization: `Bearer ${user?.token}`
                 }
             });
-            if (res.data) {
-                startTransition(() => {
-                    setBlogs(res.data.posts.reverse());
-                });
-            }
+            startTransition(() => {
+                setBlogs(res.data.posts.reverse());
+            });
         } catch (err) {
             console.log(err?.response?.data);
             if (err.response?.data?.redirect) {
