@@ -1,5 +1,6 @@
+import { GoogleLogin } from '@react-oauth/google';
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { startTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
@@ -17,7 +18,21 @@ const SignUp = () => {
         try {
             const res = await axios.post("https://movieguys.onrender.com/auth/register", data)
             if (res.data) {
-                navigate('/')
+                startTransition(() => {
+                    navigate("/");
+                });
+            }
+        } catch (err) {
+            toast(err.response?.data?.message)
+        }
+    }
+
+    const handleGoogleLogin = async (data) => {
+
+        try {
+            const res = await axios.post("https://movieguys.onrender.com/auth/google-auth", { credential: data.credential })
+            if (res.data) {
+                login(res.data)
             }
         } catch (err) {
             toast(err.response?.data?.message)
@@ -26,7 +41,7 @@ const SignUp = () => {
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
-            <ToastContainer/>
+            <ToastContainer />
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -88,7 +103,7 @@ const SignUp = () => {
                                 <label htmlFor="confirm-password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm password</label>
                                 <input {...register("cPassword", {
                                     validate: value => value === getValues("password") || "Passwords do not match",
-                                })} type="password"  placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" />
+                                })} type="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" />
                                 <p className="text-red-500 text-sm mt-2"> {formState.errors.cPassword?.message}</p>
                             </div>
                             <div className="flex items-start">
@@ -99,6 +114,10 @@ const SignUp = () => {
                                     Already have an account? <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">Login here</span>
                                 </p>
                             </Link>
+                            <GoogleLogin
+                                onSuccess={handleGoogleLogin}
+                                onError={(err) => { console.log(err) }}
+                            />
                         </form>
                     </div>
                 </div>
