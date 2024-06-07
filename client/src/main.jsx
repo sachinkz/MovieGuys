@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ErrorBoundary>
       <BrowserRouter>
         <AuthProvider>
-          <GoogleOAuthProvider clientId='YOUR_GOOGLE_CLIENT_ID'>
+          <GoogleOAuthProvider clientId='437456577968-k8t4aij6l0s1rert4o37cppnkk9smseu.apps.googleusercontent.com'>
             <App />
           </GoogleOAuthProvider>
         </AuthProvider>

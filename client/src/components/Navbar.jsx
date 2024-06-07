@@ -5,6 +5,7 @@ import { MenuIcon } from 'lucide-react'
 
 const Navbar = () => {
 
+  const [show, setShow] = useState(false)
   const { logout } = useAuth()
 
   return (
@@ -16,9 +17,15 @@ const Navbar = () => {
         <Link className='focus:underline underline-offset-8' to={"/profile"}>My Posts</Link>
         <Link className='focus:underline underline-offset-8' onClick={logout}>Logout</Link>
       </ul>
-      <div className='md:hidden'>
-          <MenuIcon/>
-      </div>
+      <MenuIcon className='cursor-pointer md:hidden' onClick={() => setShow(!show)} />
+      {show && (
+        <ul className='flex flex-col gap-1 absolute top-16 right-2 bg-gray-700'>
+          <Link className='bg-gray-600 p-2' to={"/"} >All Blogs</Link>
+          <Link className='bg-gray-600 p-2' to={"/create-post"}>Create Post</Link>
+          <Link className='bg-gray-600 p-2' to={"/profile"}>My Posts</Link>
+          <Link className='bg-gray-600 p-2' onClick={logout}>Logout</Link>
+        </ul>
+      )}
     </div>
   )
 }
