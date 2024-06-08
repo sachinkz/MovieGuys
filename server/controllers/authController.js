@@ -26,7 +26,9 @@ export const register = async (req, res) => {
     const newUser = new User({
         username,
         email,
-        password: hashedPassword
+        password: hashedPassword,
+        google: false,
+        verified: false
     })
 
     try {
@@ -50,7 +52,11 @@ export const login = async (req, res) => {
     }
 
     if (!userExist) {
-        return res.status(500).json({ message: "Invalid email" })
+        return res.status(500).json({ message: "Invalid Credentials" })
+    }
+
+    if (userExist.google) {
+        return res.status(500).json({ message: "Invalid Credentials" })
     }
 
     const validPass = await bcrypt.compare(password, userExist.password)
@@ -107,7 +113,7 @@ export const googleAuth = async (req, res) => {
         const user = await User.findOne({ email: email, password: process.env.GOOGLE_USER_PASSWORD, google: true });
         if (user) {
             const token = JWT.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" })
-            return res.status(200).json({user,token , expiresIn: Date.now() + (24 * 60 * 60 * 1000) })
+            return res.status(200).json({ user, token, expiresIn: Date.now() + (24 * 60 * 60 * 1000) })
         }
 
         const newUser = new User({
@@ -124,7 +130,7 @@ export const googleAuth = async (req, res) => {
 
         newUser.password = ""
 
-        return res.json({user:newUser,token , expiresIn: Date.now() + (24 * 60 * 60 * 1000) })
+        return res.json({ user: newUser, token, expiresIn: Date.now() + (24 * 60 * 60 * 1000) })
 
 
 
