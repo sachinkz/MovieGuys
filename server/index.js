@@ -15,7 +15,7 @@ dotenv.config()
 
 //app security middlewares
 app.use(helmet());
-app.use(cors({ origin:"https://movie-guys.vercel.app/"}));
+app.use(cors({ origin: "https://movie-guys.vercel.app/", methods: "GET,POST,PUT,DELETE,PATCH" }));
 
 app.use(morgan("dev"))
 
