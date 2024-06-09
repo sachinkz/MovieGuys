@@ -79,6 +79,7 @@ const LogIn = () => {
                             </div>
 
                             <button disabled={formState.isSubmitting} type="submit" className={`min-w-[50%] text-white bg-primary-600 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center    w-fit ${formState.isSubmitting && "bg-blue-300 cursor-not-allowed"} `}>{formState.isSubmitting ? <span className="flex items-center">Loging In <LoaderCircleIcon className="ml-1 animate-spin w-4 h-4" /> </span> : "Login"}</button>
+                            {formState.isSubmitting && <p className='text-xs text-orange-500 text-center'>This might take upto a minute to load. This is because the backend is in sleep due to inactivities.This will only happen for the first request</p>}
                             <Link to={"/signup"}>
                                 <p className="text-sm font-light text-gray-500 mt-2 dark:text-gray-400">
                                     Don’t have an account yet? <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">Signup</span>
