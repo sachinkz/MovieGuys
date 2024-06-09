@@ -14,38 +14,34 @@ const EditPost = lazy(() => import('./pages/EditPost'));
 function App() {
   const { user } = useAuth();
 
-  let routes;
+  const authRoutes = (
+    <Routes>
+      <Route path="/" element={<LogIn />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
+  );
 
-  if (!user) {
-    routes = (
+  const userRoutes = (
+    <>
+      <Navbar />
       <Routes>
-        <Route path="/" element={<LogIn />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/create-post" element={<CreatePost />} />
+        <Route path="/edit-post/:postId" element={<EditPost />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-    );
-  } else {
-    routes = (
-      <>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/create-post" element={<CreatePost />} />
-          <Route path="/edit-post/:postId" element={<EditPost />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </>
-    );
-  }
+    </>
+  );
 
   return (
     <Suspense fallback={
       <div className='w-full h-screen flex justify-center items-center'>
-         <LoaderIcon className="h-14 w-14 animate-spin text-white" />
+        <LoaderIcon className="h-14 w-14 animate-spin text-white" />
       </div>
     }>
-      {routes}
+      {user ? userRoutes : authRoutes}
     </Suspense>
   );
 }
