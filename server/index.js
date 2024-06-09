@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from "helmet";
-import morgan from "morgan";
 
 // routes importing
 import userRoutes from "./routes/userRoutes.js"
@@ -14,10 +13,8 @@ const app = express();
 dotenv.config()
 
 //app security middlewares
-app.use(helmet());
 app.use(cors({ origin:true}));
-
-app.use(morgan("dev"))
+app.use(helmet());
 
 // bodyParsers to parse body from request object
 app.use(bodyParser.json())
