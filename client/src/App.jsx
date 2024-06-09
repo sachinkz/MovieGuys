@@ -47,7 +47,9 @@ function App() {
   }
 
   return (
+    <>
       {routes}
+    </>
   );
 }
 
