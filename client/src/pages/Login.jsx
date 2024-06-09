@@ -40,9 +40,9 @@ const LogIn = () => {
     return (
         <section className="bg-gray-50 w-full h-screen flex items-center justify-center dark:bg-gray-900">
             <ToastContainer />
-            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <div className="flex w-1/2 max-md:w-full flex-col items-center justify-center px-6 max-md:px-2 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8 ">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Sign in to your account
                         </h1>
@@ -78,8 +78,8 @@ const LogIn = () => {
                                 <p className="text-red-500 text-sm mt-2"> {formState.errors.password?.message}</p>
                             </div>
 
-                            <button disabled={formState.isSubmitting} type="submit" className={`min-w-[50%] text-white bg-primary-600 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center    w-fit ${formState.isSubmitting && "bg-blue-300 cursor-not-allowed"} `}>{formState.isSubmitting ? <span className="flex items-center">Loging In <LoaderCircleIcon className="ml-1 animate-spin w-4 h-4" /> </span> : "Login"}</button>
-                            {formState.isSubmitting && <p className='text-xs text-orange-500 text-center'>This might take upto a minute to load. This is because the backend is in sleep due to inactivities.This will only happen for the first request</p>}
+                            <button disabled={formState.isSubmitting} type="submit" className={`min-w-[50%] text-white bg-primary-600 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center    w-fit ${formState.isSubmitting && "bg-blue-300 cursor-not-allowed"} `}>{formState.isSubmitting ? <span className="flex items-center w-full justify-center">Loging In <LoaderCircleIcon className="ml-1 animate-spin w-4 h-4" /> </span> : "Login"}</button>
+                            {formState.isSubmitting && <p className='text-xs text-orange-500 text-center w-full'>This might take upto a minute to load. This is because the backend is in sleep due to inactivities.This will only happen for the first request</p>}
                             <Link to={"/signup"}>
                                 <p className="text-sm font-light text-gray-500 mt-2 dark:text-gray-400">
                                     Don’t have an account yet? <span className="font-medium text-primary-600 hover:underline dark:text-primary-500">Signup</span>
