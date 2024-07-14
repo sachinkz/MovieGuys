@@ -33,7 +33,7 @@ const Profile = () => {
 
     const deletePost = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/user/delete-post/${id}`, {
+            await axios.delete(`https://movieguys.onrender.com/user/delete-post/${id}`, {
                 headers: {
                     Authorization: `Bearer ${user?.token}`
                 }

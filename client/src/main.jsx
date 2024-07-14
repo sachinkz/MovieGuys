@@ -7,7 +7,10 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import ErrorBoundary from './utils/ErrorBoundary.jsx';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const root=document.getElementById("root")
+let createdRoot=ReactDOM.createRoot(root)
+
+createdRoot.render(
   <React.StrictMode>
     <ErrorBoundary>
       <BrowserRouter>
